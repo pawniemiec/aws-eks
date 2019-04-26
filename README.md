@@ -2,7 +2,7 @@
 This repository allows you to  setup AWS Kubernetes service 
 
 
-### Prerequisites
+#### Prerequisites
 You need the following environment variables set:
 ```bash
 AWS_DEFAULT_REGION=...
@@ -11,15 +11,30 @@ AWS_SECRET_ACCESS_KEY=...
 ```
 
 You need to have the following programs installed:
-- terraform >= v0.11.10
+- docker server >= 18.06.1-ce
+- docker client >= 18.06.1-ce
 
+#### Build Docker image
 
-### Build
+Build local `aws-eks` docker image with code inside
+```bash
+docker build --network host -t aws-eks:dev .
+```
 
-### Deploy
+#### Deploy AWS EKS infrastructure
+```bash
+docker run \
+  --rm \
+  --net=host \
+  -v $(pwd)/src:/src \
+  -e AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
+  -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+  -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+  aws-eks:dev \
+  plan
+```
 
-### Destroy
-
+#### Destroy AWS EKS infrastructure
 
 
 ## Contributing
